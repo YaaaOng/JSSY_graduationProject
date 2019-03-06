@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">HELLO WORD !</string>
-    <string name="toggle_camera">카메라 전환</string>
-    <string name="detect_object">이 화면으로 인식</string>
+    <string name="app_name">Android TensorFlowLite</string>
+    <string name="toggle_camera">Toggle camera</string>
+    <string name="detect_object">Detect object</string>
+
 
 </resources>

@@ -17,39 +17,6 @@
         android:layout_gravity="center|top" />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_gravity="center|top"
-        android:layout_marginTop="300dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-
-        android:id="@+id/item01"
-        android:tag="01"
-        android:onclickable="true"
-        android:onClick="displayPicture">
-
-
-        <ImageView
-            android:id="@+id/imageViewResult"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:padding="2dp" />
-
-        <TextView
-            android:id="@+id/textViewResult"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:fadeScrollbars="false"
-            android:gravity="center"
-            android:maxLines="15"
-            android:scrollbars="vertical"
-            android:textColor="@android:color/black" />
-
-    </LinearLayout>
-
-
     <Button
         android:id="@+id/btnToggleCamera"
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ public interface Classifier {
          * A unique identifier for what has been recognized. Specific to the class, not the instance of
          * the object.
          */
-        private final String id;
+       // private final String id;
 
         /**
          * Display name for the recognition.
@@ -20,18 +20,17 @@ public interface Classifier {
         /**
          * A sortable score for how good the recognition is relative to others. Higher should be better.
          */
-        private final Float confidence;
+        private final Float confidence ;
 
-        public Recognition(
-                final String id, final String title, final Float confidence) {
-            this.id = id;
+        public Recognition(final String title) {
+            //this.id = id;
             this.title = title;
             this.confidence = confidence;
         }
 
-        public String getId() {
+        /*public String getId() {
             return id;
-        }
+        }*/
 
         public String getTitle() {
             return title;
@@ -44,20 +43,21 @@ public interface Classifier {
         @Override
         public String toString() {
             String resultString = "";
-            if (id != null) {
+            /*if (id != null) {
                 resultString += "[" + id + "] ";
             }
+            */
 
             if (title != null) {
                 resultString += title + " ";
             }
 
-            if (confidence != null) {
+            /*if (confidence != null) {
                 resultString += String.format("(%.1f%%) ", confidence * 100.0f);
-            }
+            }*/
 
             return resultString.trim();
-        }
+    }
     }
 
 

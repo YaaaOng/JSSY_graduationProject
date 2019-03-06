@@ -23,10 +23,10 @@ import java.util.PriorityQueue;
  */
 public class TensorFlowImageClassifier implements Classifier {
 
-    private static final int MAX_RESULTS = 3;
+    private static final int MAX_RESULTS = 1;
     private static final int BATCH_SIZE = 1;
     private static final int PIXEL_SIZE = 3;
-    private static final float THRESHOLD = 0.5f;
+    private static final float THRESHOLD = 0.3f;
 
     private Interpreter interpreter;
     private int inputSize;
@@ -63,6 +63,7 @@ public class TensorFlowImageClassifier implements Classifier {
         interpreter = null;
     }
 
+
     private MappedByteBuffer loadModelFile(AssetManager assetManager, String modelPath) throws IOException {
         AssetFileDescriptor fileDescriptor = assetManager.openFd(modelPath);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
@@ -83,6 +84,7 @@ public class TensorFlowImageClassifier implements Classifier {
         return labelList;
     }
 
+
     private ByteBuffer convertBitmapToByteBuffer(Bitmap bitmap) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(BATCH_SIZE * inputSize * inputSize * PIXEL_SIZE);
         byteBuffer.order(ByteOrder.nativeOrder());
@@ -101,7 +103,7 @@ public class TensorFlowImageClassifier implements Classifier {
     }
 
     @SuppressLint("DefaultLocale")
-    private List<Recognition> getSortedResult(byte[][] labelProbArray) {
+    public List<Recognition> getSortedResult(byte[][] labelProbArray) {
 
         PriorityQueue<Recognition> pq =
                 new PriorityQueue<>(
@@ -112,13 +114,13 @@ public class TensorFlowImageClassifier implements Classifier {
                                 return Float.compare(rhs.getConfidence(), lhs.getConfidence());
                             }
                         });
+        //priorityque pq 생성
 
         for (int i = 0; i < labelList.size(); ++i) {
             float confidence = (labelProbArray[0][i] & 0xff) / 255.0f;
             if (confidence > THRESHOLD) {
-                pq.add(new Recognition("" + i,
-                        labelList.size() > i ? labelList.get(i) : "unknown",
-                        confidence));
+                pq.add(new Recognition(labelList.size() > i ? labelList.get(i) : "unknown"));
+                // i , confidence 없어도 상관 x,라벨이름만 상속 받게
             }
         }
 
@@ -126,10 +128,12 @@ public class TensorFlowImageClassifier implements Classifier {
         int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
         for (int i = 0; i < recognitionsSize; ++i) {
             recognitions.add(pq.poll());
+            //새로운 배열 생성시켜서 여기서도 따로 labelist 추가시키기
         }
 
-
         return recognitions;
+
+
     }
 
 }
