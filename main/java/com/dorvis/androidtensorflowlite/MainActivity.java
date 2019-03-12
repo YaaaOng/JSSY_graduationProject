@@ -1,12 +1,14 @@
 package com.dorvis.androidtensorflowlite;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.graphics.Bitmap;
 import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -36,19 +38,28 @@ public class MainActivity extends AppCompatActivity {
     private Classifier classifier;
 
     private Executor executor = Executors.newSingleThreadExecutor();
-    private TextView textViewResult;
+    //private TextView textViewResult;
     private Button btnDetectObject, btnToggleCamera;
-    private ImageView imageViewResult;
+    //private ImageView imageViewResult;
     private CameraView cameraView;
+    private String sourceText;
+    private String resultText;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cameraView = findViewById(R.id.cameraView);
-        imageViewResult = findViewById(R.id.imageViewResult);
-        textViewResult = findViewById(R.id.textViewResult);
-        textViewResult.setMovementMethod(new ScrollingMovementMethod());
+
+
+        //final ImageView imageViewResult = view.findViewById(R.id.imageViewResult);
+        //final TextView textViewResult = view.findViewById(R.id.textViewResult);
+        //textViewResult.setMovementMethod(new ScrollingMovementMethod());
 
         btnToggleCamera = findViewById(R.id.btnToggleCamera);
         btnDetectObject = findViewById(R.id.btnDetectObject);
@@ -71,12 +82,20 @@ public class MainActivity extends AppCompatActivity {
 
                 bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
 
-                imageViewResult.setImageBitmap(bitmap);
-                //activity_object_detect_result 에 넣기
+                //imageViewResult.setImageBitmap(bitmap);
+                //activity_object_detect_result 에 넣기, 다른 화면에 넣는거 구글링
+
+
 
                 final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
 
-                textViewResult.setText(results.toString());
+                //textViewResult.setText(results.toString());
+                Translator translator = new Translator();
+                sourceText = getText(results.toString());
+                translator.execute(sourceText);
+                resultText = translator.resultText;
+                //textViewResult.setText(resultText);
+
 
                 //activity_object_detect_result 에 넣기
 
@@ -98,13 +117,19 @@ public class MainActivity extends AppCompatActivity {
         btnDetectObject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 cameraView.captureImage();
-                Intent intent = new Intent(getApplicationContext(),ObjectDetectResult.class);
+                Intent intent = new Intent(MainActivity.this,ObjectDetectResult.class);
+                intent.putExtra("resultText_KEY",resultText);
                 startActivity(intent);
             }
         });
 
         initTensorFlowAndLoadModel();
+    }
+
+    protected String getText(String s) {
+        return s;
     }
 
     @Override

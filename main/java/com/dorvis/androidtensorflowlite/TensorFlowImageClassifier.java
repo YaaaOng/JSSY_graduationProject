@@ -48,6 +48,7 @@ public class TensorFlowImageClassifier implements Classifier {
 
         return classifier;
     }
+    //List<Recognition> Recognition 객체의 리스트
 
     @Override
     public List<Recognition> recognizeImage(Bitmap bitmap) {
@@ -128,7 +129,7 @@ public class TensorFlowImageClassifier implements Classifier {
         int recognitionsSize = Math.min(pq.size(), MAX_RESULTS);
         for (int i = 0; i < recognitionsSize; ++i) {
             recognitions.add(pq.poll());
-            //새로운 배열 생성시켜서 여기서도 따로 labelist 추가시키기
+
         }
 
         return recognitions;

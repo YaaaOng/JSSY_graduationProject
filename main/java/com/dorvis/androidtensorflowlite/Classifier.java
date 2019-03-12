@@ -3,6 +3,8 @@ package com.dorvis.androidtensorflowlite;
 import android.graphics.Bitmap;
 
 import java.util.List;
+
+
 public interface Classifier {
 
     class Recognition {
@@ -20,7 +22,7 @@ public interface Classifier {
         /**
          * A sortable score for how good the recognition is relative to others. Higher should be better.
          */
-        private final Float confidence ;
+        private Float confidence;
 
         public Recognition(final String title) {
             //this.id = id;
@@ -49,14 +51,14 @@ public interface Classifier {
             */
 
             if (title != null) {
-                resultString += title + " ";
+                resultString ="[" + title + "]";
             }
 
             /*if (confidence != null) {
                 resultString += String.format("(%.1f%%) ", confidence * 100.0f);
             }*/
 
-            return resultString.trim();
+            return resultString;
     }
     }
 
